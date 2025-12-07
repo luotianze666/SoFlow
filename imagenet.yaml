@@ -1,0 +1,40 @@
+working_dir: ./your_experiment_name
+noising_type: Linear # 'Linear', 'Triangular' for flow matching noising trajectory
+coefficient_type: Euler # 'Euler', 'Triangular' for solution function parameterization
+model_type: DiT-B-4 # 'UNet', 'DiT-B-4', 'DiT-B-2', 'DiT-M-2', 'DiT-L-2', 'DiT-XL-2'
+dataset_type: Imagenet # 'CIFAR10' (3 channels), 'Imagenet' (4 channels)
+data_size: 32 # shape: channels x data_size x data_size, 256 // 8 = 32
+dataset_path: ./imagenet_latent
+
+velocity_loss_ratio: 0.75 # Flow matching data ratio
+p: 1.0 
+eps: 0.01 
+time_mean: [-0.2, -1.0, 0.2] # logit-normal time sampling
+time_std: [1.0, 0.8, 0.8]
+cfg_scale: 3.0 # Training guidance strength
+mix_ratio: 0.25 # Velocity mix ratio
+cfg_drop_rate: 0.1 # Label dropout ratio
+cfg_decay_time: 0.8 # Decay CFG strength for large noise region
+l_schedule: Exponent # 'Const','Linear','Cosine','Exponent', for schedule r(k,K)
+l_init_ratio: 0.1  # r_init
+l_end_ratio: 0.002 # r_end
+
+total_steps: 400000
+ema_decay_rate: 0.9999
+learning_rate: 0.0001
+betas: [0.9, 0.99]
+weight_decay: 0.0
+
+batch_size: 256
+num_workers: 8
+prefetch_factor: 4
+
+eval_steps: 25000
+eval_batch_size: 125
+eval_NFE: 1
+eval_demo_steps: 1000
+eval_demo_shape: [4, 8]
+
+ckpt_saving_steps: 25000
+logging_steps: 100
+seed: 42

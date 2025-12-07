@@ -1,0 +1,40 @@
+working_dir: ./your_experiment_name_cifar
+noising_type: Linear # 'Linear', 'Triangular' for flow matching noising trajectory
+coefficient_type: Euler # 'Euler', 'Triangular' for solution function parameterization
+model_type: UNet # 'UNet', 'DiT-B-4', 'DiT-B-2', 'DiT-M-2', 'DiT-L-2', 'DiT-XL-2'
+dataset_type: CIFAR10 # 'CIFAR10' (3 channels), 'Imagenet' (4 channels)
+data_size: 32 # shape: channels x data_size x data_size
+dataset_path: ./CIFAR10
+
+velocity_loss_ratio: 0.0 # Flow matching data ratio
+p: 0.75 
+eps: 0.001
+time_mean: [-0.9, -4.0, -0.9] # logit-normal time sampling
+time_std: [1.6, 1.6, 1.6]
+cfg_scale: 1.0 # Disable guidance for unconditional generation
+mix_ratio: 1.0 # Disable velocity mix ratio
+cfg_drop_rate: 0.0
+cfg_decay_time: 1.0
+l_schedule: Exponent # 'Const','Linear','Cosine','Exponent', for schedule r(k,K)
+l_init_ratio: 1.0 # r_init
+l_end_ratio: 0.0003125 # r_end
+
+total_steps: 800000
+ema_decay_rate: 0.9999
+learning_rate: 0.0001
+betas: [0.9, 0.999]
+weight_decay: 0.0
+
+batch_size: 1024
+num_workers: 12
+prefetch_factor: 6
+
+eval_steps: 25000
+eval_batch_size: 125
+eval_NFE: 1
+eval_demo_steps: 1000
+eval_demo_shape: [4, 8]
+
+ckpt_saving_steps: 25000
+logging_steps: 100
+seed: 42

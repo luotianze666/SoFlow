@@ -1,0 +1,4 @@
+tensorflow[and-cuda]
+scipy
+requests
+tqdm

@@ -1,0 +1,9 @@
+torch==2.7.1 --index-url https://download.pytorch.org/whl/cu126
+torchvision==0.22.1 --index-url https://download.pytorch.org/whl/cu126
+torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu126
+timm==1.0.15
+diffusers==0.33.1
+matplotlib==3.10.3
+h5py==3.14.0
+numpy==1.26.4
+accelerate==1.7.0
