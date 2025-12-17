@@ -22,8 +22,8 @@ import shutil
 class Learner:
     def __init__(self,
                  working_dir: str = './your_working_dir',
-                 noising_type: Literal['Linear', 'Triangular'] = 'Linear', 
-                 coefficient_type: Literal['Euler', 'Triangular'] = 'Euler',
+                 noising_type: Literal['Linear', 'Trig'] = 'Linear', 
+                 coefficient_type: Literal['Euler', 'Trig'] = 'Euler',
                  model_type: Literal['UNet', 'DiT-B-4', 'DiT-B-2', 'DiT-M-2', 'DiT-L-2', 'DiT-XL-2'] = 'DiT-B-4',
                  dataset_type: Literal['CIFAR10', 'Imagenet'] = 'Imagenet',
                  data_size: int = 32, dataset_path = './imagenet_latent', 
