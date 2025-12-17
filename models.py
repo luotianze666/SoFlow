@@ -7,7 +7,7 @@ from dit import DiT
 from typing import Literal
 
 class Scheduler(nn.Module):
-    def __init__(self, noising_type: Literal['Linear', 'Triangular'] = 'Linear', coefficient_type: Literal['Euler', 'Triangular'] = 'Euler'):
+    def __init__(self, noising_type: Literal['Linear', 'Trig'] = 'Linear', coefficient_type: Literal['Euler', 'Trig'] = 'Euler'):
         super().__init__()
         self.noising_type = noising_type
         self.coefficient_type = coefficient_type
@@ -15,25 +15,25 @@ class Scheduler(nn.Module):
     def alpha(self, t: torch.Tensor) -> torch.Tensor:
         if self.noising_type == 'Linear':
             return 1 - t
-        elif self.noising_type == 'Triangular':
+        elif self.noising_type == 'Trig':
             return torch.cos(torch.pi / 2.0 * t)
             
     def beta(self, t: torch.Tensor) -> torch.Tensor:
         if self.noising_type == 'Linear':
             return t
-        elif self.noising_type == 'Triangular':
+        elif self.noising_type == 'Trig':
             return torch.sin(torch.pi / 2.0 * t)
         
     def alpha_grad(self, t: torch.Tensor) -> torch.Tensor:
         if self.noising_type == 'Linear':
             return -1 * torch.ones_like(t)
-        elif self.noising_type == 'Triangular':
+        elif self.noising_type == 'Trig':
             return -1 * torch.pi / 2.0 * torch.sin(torch.pi / 2.0 * t)
 
     def beta_grad(self, t: torch.Tensor) -> torch.Tensor:
         if self.noising_type == 'Linear':
             return torch.ones_like(t)
-        elif self.noising_type == 'Triangular':
+        elif self.noising_type == 'Trig':
             return torch.pi / 2.0 * torch.cos(torch.pi / 2.0 * t)
     
     def get_x_t_v_t(self, x_0: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
@@ -48,31 +48,31 @@ class Scheduler(nn.Module):
     def a(self, t: torch.Tensor, s: torch.Tensor) -> torch.Tensor:
         if self.coefficient_type == 'Euler':
             return torch.ones_like(t, requires_grad = t.requires_grad)
-        else: # self.coefficient_type == 'Triangular':
+        else: # self.coefficient_type == 'Trig':
             return torch.cos(torch.pi / 2.0 * (s - t))
         
     def b(self, t: torch.Tensor, s: torch.Tensor) -> torch.Tensor:
         if self.coefficient_type == 'Euler':
             return (s - t)
-        else: # self.coefficient_type == 'Triangular':
+        else: # self.coefficient_type == 'Trig':
             return torch.sin(torch.pi / 2.0 * (s - t))
     
     def a_grad(self, t: torch.Tensor, s: torch.Tensor) -> torch.Tensor:
         if self.coefficient_type == 'Euler':
             return torch.zeros_like(t, requires_grad = t.requires_grad), torch.zeros_like(s, requires_grad = s.requires_grad)
-        else: # self.coefficient_type == 'Triangular':
+        else: # self.coefficient_type == 'Trig':
             return torch.pi / 2.0 * torch.sin(torch.pi / 2.0 * (s - t)), - torch.pi / 2.0 * torch.sin(torch.pi / 2.0 * (s - t))
         
     def b_grad(self, t: torch.Tensor, s: torch.Tensor) -> torch.Tensor:
         if self.coefficient_type == 'Euler':
             return - torch.ones_like(t, requires_grad = t.requires_grad), torch.ones_like(s, requires_grad = s.requires_grad)
-        else: # self.coefficient_type == 'Triangular':
+        else: # self.coefficient_type == 'Trig':
             return - torch.pi / 2.0 * torch.cos(torch.pi / 2.0 * (s - t)), torch.pi / 2.0 * torch.cos(torch.pi / 2.0 * (s - t))
 
     
 class Soflow(nn.Module):
     def __init__(self, data_channels: int = 3, data_size: int = 32, num_classes: int | None = None, cfg_drop_rate: float = 0.1,
-                 noising_type: Literal['Linear', 'Triangular'] = 'Linear', coefficient_type: Literal['Euler', 'Triangular'] = 'Euler',
+                 noising_type: Literal['Linear', 'Trig'] = 'Linear', coefficient_type: Literal['Euler', 'Trig'] = 'Euler',
                  model_type: Literal['UNet','DiT-B-4', 'DiT-B-2', 'DiT-M-2', 'DiT-L-2', 'DiT-XL-2'] = 'DiT-B-4'):
         
         super().__init__()
