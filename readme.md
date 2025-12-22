@@ -122,3 +122,13 @@ python evaluator.py --ref_batch ./SoFlow/Ref/cifar10.npz --sample_batch_dir ./So
 ```
 
 Our evaluator can automatically evaluate all npz files in --sample_batch_dir and save the results into `eval_results.txt`.
+
+## BibTex
+```
+@article{luo2025soflow,
+  title={SoFlow: Solution Flow Models for One-Step Generative Modeling},
+  author={Luo, Tianze and Yuan, Haotian and Liu, Zhuang},
+  journal={arXiv preprint arXiv:2512.15657},
+  year={2025}
+}
+```
